@@ -74,6 +74,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper,Employee> im
 
         // 2.添加其他属性
         employee.setPassword(PasswordUtil.encode(PasswordConstant.DEFAULT_PASSWORD));
+        employee.setStatus(StatusConstant.ENABLE);
         employee.setCreateTime(LocalDateTime.now());
         employee.setUpdateTime(LocalDateTime.now());
         // TODO:设置创建USER和更新USER
