@@ -2,6 +2,7 @@ package com.sky.service;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.entity.Employee;
 
@@ -14,4 +15,5 @@ public interface EmployeeService extends IService<Employee> {
      */
     Employee login(EmployeeLoginDTO employeeLoginDTO);
 
+    void addEmployee(EmployeeDTO employeeDTO);
 }
