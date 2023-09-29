@@ -102,9 +102,41 @@ public class EmployeeController {
      * @return: com.sky.result.Result
      **/
     @PostMapping("/status/{status}")
+    @ApiOperation("启用禁用员工账号")
     public Result startOrStop(@PathVariable Integer status,Long id){
         log.info("启用禁用员工账号:{}{}",status,id);
         employeeService.startOrStop(status,id);
+        return Result.success();
+    }
+
+    /**
+     * @description:根据id查询员工
+     * @author: xi
+     * @date: 2023/9/29 23:45
+     * @paramType: [java.lang.Long]
+     * @param: [id]
+     * @return: com.sky.result.Result<com.sky.entity.Employee>
+     **/
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询员工")
+    public Result<Employee> queryById(@PathVariable("id") Long id){
+        Employee employee = employeeService.lambdaQuery().eq(Employee::getId,id).one();
+        employee.setPassword("***");
+        return Result.success(employee);
+    }
+
+    /**
+     * @description:编辑员工信息
+     * @author: xi
+     * @date: 2023/9/29 23:47
+     * @paramType: [com.sky.dto.EmployeeDTO]
+     * @param: [employeeDTO]
+     * @return: com.sky.result.Result
+     **/
+    @PutMapping
+    @ApiOperation("编辑员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        employeeService.updateEmployee(employeeDTO);
         return Result.success();
     }
 }
