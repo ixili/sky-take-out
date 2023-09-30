@@ -1,6 +1,8 @@
 package com.sky.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,5 +50,6 @@ public class ShoppingCart implements Serializable {
     //图片
     private String image;
 
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 }
