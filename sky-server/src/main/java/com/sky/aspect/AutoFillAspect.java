@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @Slf4j
 public class AutoFillAspect {
 
-    @Pointcut( "execution( * com.sky.service.*(..)) && @annotation(com.sky.annotation.AutoFill) " )
+    @Pointcut( "execution( * com.sky.service.*.*(..)) && @annotation(com.sky.annotation.AutoFill) " )
     public void pointcut(){}
 
     @Before( "pointcut()" )
