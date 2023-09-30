@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
  * @create 2023/9/30- 18:46
  */
 @Aspect
-@Component
+//@Component
 @Slf4j
 public class AutoFillAspect {
 

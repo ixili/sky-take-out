@@ -50,10 +50,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper,Category> im
         category.setStatus(StatusConstant.DISABLE);
 
         //设置创建时间、修改时间、创建人、修改人
-        category.setCreateTime(LocalDateTime.now());
-        category.setUpdateTime(LocalDateTime.now());
-        category.setCreateUser(BaseContext.getCurrentId());
-        category.setUpdateUser(BaseContext.getCurrentId());
+//        category.setCreateTime(LocalDateTime.now());
+//        category.setUpdateTime(LocalDateTime.now());
+//        category.setCreateUser(BaseContext.getCurrentId());
+//        category.setUpdateUser(BaseContext.getCurrentId());
 
         save(category);
 //        categoryMapper.insert(category);
@@ -115,8 +115,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper,Category> im
         BeanUtils.copyProperties(categoryDTO,category);
 
         //设置修改时间、修改人
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
+//        category.setUpdateTime(LocalDateTime.now());
+//        category.setUpdateUser(BaseContext.getCurrentId());
 
         lambdaUpdate().eq(Category::getId,category.getId()).update(category);
 //        categoryMapper.update(category);

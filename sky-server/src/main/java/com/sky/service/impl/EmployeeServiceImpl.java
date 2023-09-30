@@ -79,11 +79,11 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper,Employee> im
         // 2.添加其他属性
         employee.setPassword(PasswordUtil.encode(PasswordConstant.DEFAULT_PASSWORD));
         employee.setStatus(StatusConstant.ENABLE);
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
         // 设置创建USER和更新USER
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setCreateUser(BaseContext.getCurrentId());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
 
         // 2.mp存入数据库
         save(employee);
@@ -117,8 +117,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper,Employee> im
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO,employee);
 
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
 
         lambdaUpdate().eq(Employee::getId,employee.getId()).update(employee);
     }

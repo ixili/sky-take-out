@@ -2,6 +2,7 @@ package com.sky.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.sky.constant.AutoFillConstant;
+import com.sky.constant.AutoFillConstantMP;
 import com.sky.context.BaseContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -32,10 +33,10 @@ public class MyMateObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("mybatisplus公共字段填充[insert]...");
-        metaObject.setValue(AutoFillConstant.SET_CREATE_TIME, LocalDateTime.now());//创建时间
-        metaObject.setValue(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.now());//修改时间
-        metaObject.setValue(AutoFillConstant.SET_CREATE_USER,  BaseContext.getCurrentId());//创建人ID
-        metaObject.setValue(AutoFillConstant.SET_UPDATE_USER,  BaseContext.getCurrentId());//修改人ID
+        metaObject.setValue(AutoFillConstantMP.CREATE_TIME, LocalDateTime.now());//创建时间
+        metaObject.setValue(AutoFillConstantMP.UPDATE_TIME, LocalDateTime.now());//修改时间
+        metaObject.setValue(AutoFillConstantMP.CREATE_USER,  BaseContext.getCurrentId());//创建人ID
+        metaObject.setValue(AutoFillConstantMP.UPDATE_USER,  BaseContext.getCurrentId());//修改人ID
     }
 
     /**
@@ -49,8 +50,8 @@ public class MyMateObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("mybatisplus公共字段填充[update]...");
-        metaObject.setValue(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.now());//修改时间
-        metaObject.setValue(AutoFillConstant.SET_UPDATE_USER, BaseContext.getCurrentId());//修改人ID
+        metaObject.setValue(AutoFillConstantMP.UPDATE_TIME, LocalDateTime.now());//修改时间
+        metaObject.setValue(AutoFillConstantMP.UPDATE_USER, BaseContext.getCurrentId());//修改人ID
 
     }
 }
