@@ -36,10 +36,10 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>com.aliyun.oss</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun.oss</groupId>-->
+<!--            <artifactId>aliyun-sdk-oss</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -48,6 +48,29 @@
         <dependency>
             <groupId>com.github.wechatpay-apiv3</groupId>
             <artifactId>wechatpay-apache-httpclient</artifactId>
+        </dependency>
+
+        <!--        aliyunoss-->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+<!--            <version>3.15.1</version>-->
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+<!--            <version>2.3.1</version>-->
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+<!--            <version>1.1.1</version>-->
+        </dependency>
+        <!-- no more than 2.3.3-->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+<!--            <version>2.3.3</version>-->
         </dependency>
     </dependencies>
 </project>
