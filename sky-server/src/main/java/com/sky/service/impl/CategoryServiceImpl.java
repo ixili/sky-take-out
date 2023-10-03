@@ -2,6 +2,7 @@ package com.sky.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sky.constant.CategoryTypeConstant;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
@@ -146,7 +147,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper,Category> im
     public List<Category> list(Integer type) {
         return lambdaQuery()
                 .eq(Category::getType,type)
-                .eq(Category::getStatus,1)
+                .eq(Category::getStatus,StatusConstant.ENABLE)
                 .orderByAsc(Category::getSort)
                 .orderByDesc(Category::getCreateTime)
                 .list();
