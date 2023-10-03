@@ -91,4 +91,21 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         pageResult.setRecords(res);
         return pageResult;
     }
+
+    @Override
+    public void update(DishDTO dishDTO) {
+        Dish dish = new Dish();
+        BeanUtils.copyProperties(dishDTO,dish);
+        lambdaUpdate()
+                .eq(dish.getId()!=null,Dish::getId,dish.getId())
+                .update(dish);
+    }
+
+    @Override
+    public DishVO query(Long id) {
+        Dish dish = lambdaQuery().eq(Dish::getId, id).one();
+        DishVO dishVO = new DishVO();
+        BeanUtils.copyProperties(dish,dishVO);
+        return dishVO;
+    }
 }

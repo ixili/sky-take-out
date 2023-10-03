@@ -41,4 +41,20 @@ public class DishController {
         return Result.success(pageResult);
     }
 
+    @PutMapping
+    @ApiOperation("修改菜品")
+    public Result update(@RequestBody DishDTO dishDTO){
+        log.info("修改菜品：{}",dishDTO);
+        dishService.update(dishDTO);
+        return Result.success();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("根据Id获取菜品")
+    public Result<DishVO> query(@PathVariable("id") Long id){
+        log.info("根据Id获取菜品：{}",id);
+        DishVO dishVO = dishService.query(id);
+        return Result.success(dishVO);
+    }
+
 }

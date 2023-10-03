@@ -17,4 +17,8 @@ public interface DishService extends IService<Dish> {
     void saveWithFlavor(DishDTO dishDTO);
 
     PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO);
+
+    void update(DishDTO dishDTO);
+
+    DishVO query(Long id);
 }
