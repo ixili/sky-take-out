@@ -8,6 +8,7 @@ import com.sky.service.DishService;
 import com.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -68,4 +69,12 @@ public class DishController {
         return Result.success();
     }
 
+    @PostMapping("/status/{status}")
+    @ApiOperation("修改菜品起售停售状态")
+    // 默认为数组Long[] 加注解可以转为集合
+    public Result status(@PathVariable Integer status,Long id){
+        log.info("修改菜品起售停售状态：{},{}",status,id);
+        dishService.status(status,id);
+        return Result.success();
+    }
 }

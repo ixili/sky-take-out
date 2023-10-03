@@ -137,4 +137,10 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
         dishFlavorMapper.delete(wrapper);
     }
+
+    @Override
+    public void status(Integer status, Long id) {
+        lambdaUpdate().eq(id!=null,Dish::getId,id)
+                .update(Dish.builder().status(status).id(id).build());
+    }
 }

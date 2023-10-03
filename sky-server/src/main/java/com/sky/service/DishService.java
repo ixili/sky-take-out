@@ -26,4 +26,6 @@ public interface DishService extends IService<Dish> {
 
     @Transactional
     void deleteByIds(List<Long> ids);
+
+    void status(Integer status, Long id);
 }
