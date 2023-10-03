@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /** 菜品相关接口
  * @author xi
  * @create 2023/10/1- 22:46
@@ -55,6 +57,15 @@ public class DishController {
         log.info("根据Id获取菜品：{}",id);
         DishVO dishVO = dishService.query(id);
         return Result.success(dishVO);
+    }
+
+    @DeleteMapping
+    @ApiOperation("根据Ids删除菜品")
+    // 默认为数组Long[] 加注解可以转为集合
+    public Result delete(@RequestParam List<Long> ids){
+        log.info("根据Ids删除菜品：{}",ids);
+        dishService.deleteByIds(ids);
+        return Result.success();
     }
 
 }

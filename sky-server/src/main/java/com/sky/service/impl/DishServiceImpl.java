@@ -1,15 +1,17 @@
 package com.sky.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
+import com.sky.constant.MessageConstant;
+import com.sky.constant.StatusConstant;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
-import com.sky.entity.Category;
-import com.sky.entity.Dish;
-import com.sky.entity.DishFlavor;
-import com.sky.entity.Setmeal;
+import com.sky.entity.*;
+import com.sky.exception.DeletionNotAllowedException;
+import com.sky.mapper.DishFlavorMapper;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +41,8 @@ import java.util.stream.Collectors;
 public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements DishService {
     @Autowired
     DishMapper dishMapper;
+    @Autowired
+    DishFlavorMapper dishFlavorMapper;
     @Override
     public void saveWithFlavor(DishDTO dishDTO) {
         // 1.新增一条菜品
@@ -107,5 +112,29 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         DishVO dishVO = new DishVO();
         BeanUtils.copyProperties(dish,dishVO);
         return dishVO;
+    }
+
+    @Override
+    public void deleteByIds(List<Long> ids) {
+
+        for (Long id : ids){
+            Dish dish = lambdaQuery().eq(Dish::getId,id).one();
+            // 起售不能不能删除
+            if(Objects.equals(dish.getStatus(), StatusConstant.ENABLE)){
+                throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
+            }
+            // 被套餐关联商品不能删除
+            if(!Db.lambdaQuery(SetmealDish.class).eq(SetmealDish::getDishId, id).list().isEmpty()){
+                throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
+            }
+
+        }
+        // 删除商品
+        removeByIds(ids);
+        // 关联口味也需要删除
+        LambdaQueryWrapper<DishFlavor> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(DishFlavor::getDishId,ids);
+
+        dishFlavorMapper.delete(wrapper);
     }
 }

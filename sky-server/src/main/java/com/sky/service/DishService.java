@@ -8,6 +8,8 @@ import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author xi
  * @create 2023/10/1- 22:34
@@ -21,4 +23,7 @@ public interface DishService extends IService<Dish> {
     void update(DishDTO dishDTO);
 
     DishVO query(Long id);
+
+    @Transactional
+    void deleteByIds(List<Long> ids);
 }
