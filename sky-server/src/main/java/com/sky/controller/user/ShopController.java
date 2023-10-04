@@ -1,4 +1,4 @@
-package com.sky.controller.admin;
+package com.sky.controller.user;
 
 import com.sky.result.Result;
 import com.sky.service.ShopService;
@@ -12,25 +12,14 @@ import org.springframework.web.bind.annotation.*;
  * @author xi
  * @create 2023/10/4- 19:27
  */
-@RestController("adminShopController")
-@RequestMapping("/admin/shop")
+@RestController("userShopController")
+@RequestMapping("/user/shop")
 @Slf4j
 @Api( tags = "商铺状态")
 public class ShopController {
 
-
-
     @Autowired
     ShopService shopService;
-    @PutMapping("/{status}")
-    @ApiOperation("设置店铺的营业状态")
-    public Result setStatus(@PathVariable("status") Integer status){
-        log.info("设置店铺的营业状态为：{}", status == 1 ? "营业中" : "打烊中");
-        shopService.setStatus(status);
-        return Result.success();
-
-    }
-
     @GetMapping("/status")
     @ApiOperation("获取店铺的营业状态")
     public Result<Integer> getStatus(){

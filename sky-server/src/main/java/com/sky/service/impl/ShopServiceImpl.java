@@ -12,15 +12,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ShopServiceImpl implements ShopService {
+
+    public static final String KEY = "SHOP_STATUS";
+
     @Autowired
     RedisTemplate redisTemplate;
     @Override
     public void setStatus(Integer status) {
-        redisTemplate.opsForValue().set("SHOP_STATUS",status);
+        redisTemplate.opsForValue().set(KEY,status);
     }
 
     @Override
     public Integer getStatus() {
-        return (Integer) redisTemplate.opsForValue().get("SHOP_STATUS");
+        return (Integer) redisTemplate.opsForValue().get(KEY);
     }
 }
