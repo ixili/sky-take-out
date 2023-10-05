@@ -146,7 +146,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper,Category> im
      */
     public List<Category> list(Integer type) {
         return lambdaQuery()
-                .eq(Category::getType,type)
+                .eq(type!=null,Category::getType,type)
                 .eq(Category::getStatus,StatusConstant.ENABLE)
                 .orderByAsc(Category::getSort)
                 .orderByDesc(Category::getCreateTime)
