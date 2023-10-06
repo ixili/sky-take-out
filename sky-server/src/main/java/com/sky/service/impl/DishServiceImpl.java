@@ -151,7 +151,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
      */
     public List<DishVO> listWithFlavor(Dish dish) {
         List<Dish> dishList = lambdaQuery()
-                .eq(dish.getId()!=null,Dish::getId,dish.getId())
+                .eq(dish.getCategoryId()!=null,Dish::getCategoryId,dish.getCategoryId())
                 .list();
                 //dishMapper.list(dish);
 
