@@ -41,5 +41,12 @@ public class ShoppingCartController {
         return Result.success(list);
     }
 
+    @PostMapping("/sub")
+    @ApiOperation("减少购物车物品")
+    public Result sub(@RequestBody ShoppingCartDTO shoppingCartDTO){
+        log.info("减少购物车:{}",shoppingCartDTO);
+        shoppingCartService.sub(shoppingCartDTO);
+        return Result.success();
+    }
 
 }

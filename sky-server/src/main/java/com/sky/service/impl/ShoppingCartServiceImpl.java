@@ -84,5 +84,33 @@ public class ShoppingCartServiceImpl extends ServiceImpl<ShoppingCartMapper, Sho
 //        save(shoppingCart);
 
     }
+
+    @Override
+    public void sub(ShoppingCartDTO shoppingCartDTO) {
+        Long currentId = BaseContext.getCurrentId();
+        LambdaQueryWrapper<ShoppingCart> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ShoppingCart::getUserId, currentId)
+                .eq(shoppingCartDTO.getDishId()!=null,ShoppingCart::getDishId,shoppingCartDTO.getDishId())
+                .eq(shoppingCartDTO.getSetmealId()!=null,ShoppingCart::getSetmealId,shoppingCartDTO.getSetmealId())
+                .eq(shoppingCartDTO.getDishFlavor()!=null,ShoppingCart::getDishFlavor,shoppingCartDTO.getDishFlavor())
+                ;
+        // 查出对应数据
+        ShoppingCart shoppingCart = lambdaQuery()
+                .eq(ShoppingCart::getUserId, currentId)
+                .eq(shoppingCartDTO.getDishId()!=null,ShoppingCart::getDishId,shoppingCartDTO.getDishId())
+                .eq(shoppingCartDTO.getSetmealId()!=null,ShoppingCart::getSetmealId,shoppingCartDTO.getSetmealId())
+                .eq(shoppingCartDTO.getDishFlavor()!=null,ShoppingCart::getDishFlavor,shoppingCartDTO.getDishFlavor())
+                .one();
+        shoppingCart.setCreateTime(LocalDateTime.now());
+        shoppingCart.setNumber(shoppingCart.getNumber()-1);
+        //如果只有一个物品则删除
+        if(shoppingCart.getNumber() == 0){
+            remove(wrapper);
+        }
+        //如果不止一个则更新
+        else{
+            update(shoppingCart,wrapper);
+        }
+    }
 }
 
