@@ -26,6 +26,7 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import com.sky.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     private ShoppingCartService shoppingCartService;
     @Autowired
     private WeChatPayUtil weChatPayUtil;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     @Value("${sky.shop.address}")
     private String shopAddress;
@@ -177,6 +180,16 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
 //        orderMapper.update(orders);
         lambdaUpdate().eq(orders.getId()!=null,Orders::getId,orders.getId()).update(orders);
+
+        // 通过websocket 推送给店家 来单了
+        Map map = new HashMap();
+        map.put("type",1);// 1来单提醒 2客户催单
+        map.put("orderId",ordersDB.getId());
+        map.put("content","订单号"+outTradeNo);
+
+        String jsonString = JSON.toJSONString(map);
+
+        webSocketServer.sendToAllClient(jsonString);
     }
 
     @Override
@@ -530,6 +543,25 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         orders.setDeliveryTime(LocalDateTime.now());
 
         lambdaUpdate().eq(Orders::getId,orders.getId()).update(orders);
+    }
+
+    @Override
+    public void reminder(Long id) {
+        // 通过websocket 推送给店家 来单了
+
+        Map map = new HashMap();
+        map.put("type",2);// 1来单提醒 2客户催单
+        map.put("orderId",id);
+        Orders one = lambdaQuery().eq(Orders::getId, id).one();
+        if(one == null){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        map.put("content","订单号"+one.getNumber());
+
+        String jsonString = JSON.toJSONString(map);
+
+        webSocketServer.sendToAllClient(jsonString);
+
     }
 
     /**
