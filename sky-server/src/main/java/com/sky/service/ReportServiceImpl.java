@@ -1,13 +1,18 @@
 package com.sky.service;
 
 import com.baomidou.mybatisplus.extension.toolkit.Db;
+import com.sky.dto.GoodsSalesDTO;
+import com.sky.entity.OrderDetail;
 import com.sky.entity.Orders;
 import com.sky.entity.User;
+import com.sky.mapper.OrdersMapper;
 import com.sky.service.impl.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author xi
@@ -23,6 +29,10 @@ import java.util.List;
  */
 @Service
 public class ReportServiceImpl implements ReportService {
+
+    @Autowired
+    private OrdersMapper ordersMapper;
+
     @Override
     public TurnoverReportVO turnoverStatistics(LocalDate begin, LocalDate end) {
         List<Orders> list = Db.lambdaQuery(Orders.class)
@@ -103,6 +113,19 @@ public class ReportServiceImpl implements ReportService {
         List<Orders> list = Db.lambdaQuery(Orders.class)
                 .between(Orders::getOrderTime, LocalDateTime.of(begin, LocalTime.MIN), LocalDateTime.of(end, LocalTime.MAX))
                 .list();
+        List<Long> ids = list.stream().map(l -> {
+            return l.getId();
+        }).collect(Collectors.toList());
+        List<OrderDetail> orderDetailList = Db.lambdaQuery(OrderDetail.class)
+                .in(OrderDetail::getOrderId, ids)
+                .list();
+
+//        Db.lambdaQuery(OrderDetail.class)
+//                .in(OrderDetail::getOrderId, ids)
+//                .groupBy(OrderDetail::getDishId)
+//                .list();
+
+
         List<LocalDate> dateList = new ArrayList<>();
         dateList.add(begin);
         while (!begin.equals(end)){
@@ -145,6 +168,28 @@ public class ReportServiceImpl implements ReportService {
                 .validOrderCountList(StringUtils.join(validOrderCount,","))
                 .totalOrderCount(list.size())
                 .validOrderCount(valid)
+                .build();
+
+    }
+
+    @Override
+    public SalesTop10ReportVO top10(LocalDate begin, LocalDate end) {
+
+        LocalDateTime start = LocalDateTime.of(begin, LocalTime.MIN);
+        LocalDateTime endTime = LocalDateTime.of(end, LocalTime.MAX);
+
+        List<GoodsSalesDTO> salesTop10 = null;
+        salesTop10 =  ordersMapper.getSalesTop10(start, endTime);
+
+        List<String> names = salesTop10.stream().map(GoodsSalesDTO::getName).collect(Collectors.toList());
+        List<Integer> numbers = salesTop10.stream().map(GoodsSalesDTO::getNumber).collect(Collectors.toList());
+        String namesJoin = StringUtils.join(names, ",");
+        String numbersJoin = StringUtils.join(numbers, ",");
+
+        return SalesTop10ReportVO
+                .builder()
+                .nameList(namesJoin)
+                .numberList(numbersJoin)
                 .build();
 
     }
