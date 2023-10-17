@@ -1,7 +1,7 @@
 package com.sky.controller.report;
 
 import com.sky.result.Result;
-import com.sky.service.impl.ReportService;
+import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
 import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;

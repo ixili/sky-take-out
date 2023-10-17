@@ -1,4 +1,4 @@
-package com.sky.service.impl;
+package com.sky.service;
 
 import com.sky.vo.OrderReportVO;
 import com.sky.vo.SalesTop10ReportVO;

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -34,5 +35,17 @@ public interface OrdersMapper extends BaseMapper<Orders> {
 //    void update(Orders orders);
 
     List<GoodsSalesDTO> getSalesTop10(LocalDateTime begin, LocalDateTime end);
+
+    /**
+     * 根据动态条件统计营业额
+     * @param map
+     */
+    Double sumByMap(Map map);
+
+    /**
+     *根据动态条件统计订单数量
+     * @param map
+     */
+    Integer countByMap(Map map);
 }
 

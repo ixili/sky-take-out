@@ -1,4 +1,4 @@
-package com.sky.service;
+package com.sky.service.impl;
 
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.sky.dto.GoodsSalesDTO;
@@ -6,7 +6,7 @@ import com.sky.entity.OrderDetail;
 import com.sky.entity.Orders;
 import com.sky.entity.User;
 import com.sky.mapper.OrdersMapper;
-import com.sky.service.impl.ReportService;
+import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
 import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
